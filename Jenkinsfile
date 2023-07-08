@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    node {
+      label 'test'
+    }
+
+  }
   stages {
     stage('compile') {
       steps {
@@ -41,6 +46,7 @@ pipeline {
           steps {
             sh './mvnw verify'
             junit '**/target/surefire-reports/'
+            perfReport(sourceDataFiles: ' **/target/jmeter/results/*')
           }
         }
 
